@@ -10,16 +10,16 @@
     <NoWarn>$(NoWarn);1591</NoWarn>
     <DebugType>portable</DebugType>
     <DebugSymbols>True</DebugSymbols>
-    <PackageLicenseUrl>https://raw.githubusercontent.com/Faithlife/RepoName/master/LICENSE</PackageLicenseUrl>
-    <PackageProjectUrl>https://github.com/Faithlife/RepoName</PackageProjectUrl>
-    <PackageReleaseNotes>https://github.com/Faithlife/RepoName/blob/master/VersionHistory.md#released</PackageReleaseNotes>
-    <RepositoryUrl>https://github.com/Faithlife/RepoName.git</RepositoryUrl>
+    <PackageLicenseUrl>https://raw.githubusercontent.com/Faithlife/FaithlifeTracing/master/LICENSE</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/Faithlife/FaithlifeTracing</PackageProjectUrl>
+    <PackageReleaseNotes>https://github.com/Faithlife/FaithlifeTracing/blob/master/VersionHistory.md#released</PackageReleaseNotes>
+    <RepositoryUrl>https://github.com/Faithlife/FaithlifeTracing.git</RepositoryUrl>
     <Authors>Faithlife Corporation</Authors>
     <Copyright>Copyright 2018 Faithlife Corporation</Copyright>
     <Description></Description>
     <PackageTags></PackageTags>
-    <SourceLinkUrl>https://raw.githubusercontent.com/Faithlife/RepoName/{commit}/*</SourceLinkUrl>
-    <SourceLinkOriginUrl>https://github.com/Faithlife/RepoName.git</SourceLinkOriginUrl>
+    <SourceLinkUrl>https://raw.githubusercontent.com/Faithlife/FaithlifeTracing/{commit}/*</SourceLinkUrl>
+    <SourceLinkOriginUrl>https://github.com/Faithlife/FaithlifeTracing.git</SourceLinkOriginUrl>
   </PropertyGroup>
 
   <ItemGroup>

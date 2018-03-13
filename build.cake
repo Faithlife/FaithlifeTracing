@@ -9,10 +9,10 @@ var nugetApiKey = Argument("nugetApiKey", "");
 var trigger = Argument("trigger", "");
 var versionSuffix = Argument("versionSuffix", "");
 
-var solutionFileName = "ProjectName.sln";
-var docsAssembly = File($"src/ProjectName/bin/{configuration}/net461/ProjectName.dll").ToString();
-var docsRepoUri = "https://github.com/Faithlife/RepoName.git";
-var docsSourceUri = "https://github.com/Faithlife/RepoName/tree/master/src/ProjectName";
+var solutionFileName = "Faithlife.Tracing.sln";
+var docsAssembly = File($"src/Faithlife.Tracing/bin/{configuration}/net461/Faithlife.Tracing.dll").ToString();
+var docsRepoUri = "https://github.com/Faithlife/FaithlifeTracing.git";
+var docsSourceUri = "https://github.com/Faithlife/FaithlifeTracing/tree/master/src/Faithlife.Tracing";
 
 var nugetSource = "https://api.nuget.org/v3/index.json";
 var buildBotUserName = "faithlifebuildbot";

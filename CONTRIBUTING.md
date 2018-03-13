@@ -1,4 +1,4 @@
-# Contributing to ProjectName
+# Contributing to Faithlife.Tracing
 
 ## Prerequisites
 
@@ -13,6 +13,6 @@
 
 ## How to Build
 
-* Clone the repository: `git clone https://github.com/Faithlife/RepoName.git`
-* `cd RepoName`
-* `dotnet test tests/ProjectName.Tests`
+* Clone the repository: `git clone https://github.com/Faithlife/FaithlifeTracing.git`
+* `cd FaithlifeTracing`
+* `dotnet test tests/Faithlife.Tracing.Tests`
