@@ -1,12 +1,12 @@
-# ProjectName
+# Faithlife.Tracing
 
-**ProjectName** description
+**Faithlife.Tracing** description
 
 ## Installation
 
-ProjectName should be installed [via NuGet](https://www.nuget.org/packages/ProjectName).
+Faithlife.Tracing should be installed [via NuGet](https://www.nuget.org/packages/Faithlife.Tracing).
 
 ## Documentation
 
-* [Reference Documentation](ProjectName.md)
+* [Reference Documentation](Faithlife.Tracing.md)
 
