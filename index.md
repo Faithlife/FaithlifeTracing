@@ -36,7 +36,7 @@ from `HttpContext.Current`. This may look something like (StructureMap):
 
 or (AutoFac):
 
-   builder.Register<ITraceProvider>(c => AspNetWebApiTracing.GetProvider(HttpContext.Current)).InstancePerRequest();
+    builder.Register<ITraceProvider>(c => AspNetWebApiTracing.GetProvider(HttpContext.Current)).InstancePerRequest();
 
 ### ADO.NET
 
