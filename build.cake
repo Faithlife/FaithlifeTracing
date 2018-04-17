@@ -1,5 +1,5 @@
 #addin "Cake.Git"
-#tool "nuget:?package=XmlDocMarkdown&version=0.5.6"
+#addin nuget:?package=Cake.XmlDocMarkdown&version=1.2.1
 
 using System.Text.RegularExpressions;
 
@@ -9,7 +9,7 @@ var nugetApiKey = Argument("nugetApiKey", "");
 var trigger = Argument("trigger", "");
 
 var solutionFileName = "Faithlife.Tracing.sln";
-var docsAssembly = File($"src/Faithlife.Tracing/bin/{configuration}/net461/Faithlife.Tracing.dll").ToString();
+var docsProjects = new[] { "Faithlife.Tracing" };
 var docsRepoUri = "https://github.com/Faithlife/FaithlifeTracing.git";
 var docsSourceUri = "https://github.com/Faithlife/FaithlifeTracing/tree/master/src/Faithlife.Tracing";
 
@@ -47,11 +47,14 @@ Task("UpdateDocs")
 		var branchName = "gh-pages";
 		var docsDirectory = new DirectoryPath(branchName);
 		GitClone(docsRepoUri, docsDirectory, new GitCloneSettings { BranchName = branchName });
-		var exePath = File("cake/xmldocmarkdown.0.5.6/XmlDocMarkdown/tools/XmlDocMarkdown.exe").ToString();
-		var arguments = $@"{docsAssembly} {branchName}{System.IO.Path.DirectorySeparatorChar} --source ""{docsSourceUri}"" --newline lf --clean";
-		int exitCode = StartProcess(exePath, arguments);
-		if (exitCode != 0)
-			throw new InvalidOperationException($"Docs generation failed with exit code {exitCode}.");
+
+		Information($"Updating documentation at {docsDirectory}.");
+		foreach (var docsProject in docsProjects)
+		{
+			XmlDocMarkdownGenerate(File($"src/{docsProject}/bin/{configuration}/net461/{docsProject}.dll").ToString(), $"{docsDirectory}{System.IO.Path.DirectorySeparatorChar}",
+				new XmlDocMarkdownSettings { SourceCodePath = $"{docsSourceUri}/{docsProject}", NewLine = "\n", ShouldClean = true });
+		}
+
 		if (GitHasUncommitedChanges(docsDirectory))
 		{
 			Information("Committing all documentation changes.");

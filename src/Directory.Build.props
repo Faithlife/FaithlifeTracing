@@ -7,14 +7,15 @@
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <DebugType>portable</DebugType>
     <DebugSymbols>True</DebugSymbols>
-    <PackageLicenseUrl>https://raw.githubusercontent.com/Faithlife/FaithlifeTracing/master/LICENSE</PackageLicenseUrl>
-    <PackageProjectUrl>https://github.com/Faithlife/FaithlifeTracing</PackageProjectUrl>
-    <PackageReleaseNotes>https://github.com/Faithlife/FaithlifeTracing/blob/master/VersionHistory.md#released</PackageReleaseNotes>
-    <RepositoryUrl>https://github.com/Faithlife/FaithlifeTracing.git</RepositoryUrl>
+    <RepositoryName>FaithlifeTracing</RepositoryName>
+    <PackageLicenseUrl>https://raw.githubusercontent.com/Faithlife/$(RepositoryName)/master/LICENSE</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/Faithlife/$(RepositoryName)</PackageProjectUrl>
+    <PackageReleaseNotes>https://github.com/Faithlife/$(RepositoryName)/blob/master/VersionHistory.md#released</PackageReleaseNotes>
+    <RepositoryUrl>https://github.com/Faithlife/$(RepositoryName).git</RepositoryUrl>
     <Authors>Faithlife Corporation</Authors>
-    <Copyright>Copyright 2018 Faithlife Corporation</Copyright>
-    <SourceLinkUrl>https://raw.githubusercontent.com/Faithlife/FaithlifeTracing/{commit}/*</SourceLinkUrl>
-    <SourceLinkOriginUrl>https://github.com/Faithlife/FaithlifeTracing.git</SourceLinkOriginUrl>
+    <Copyright>Copyright Faithlife Corporation</Copyright>
+    <SourceLinkUrl>https://raw.githubusercontent.com/Faithlife/$(RepositoryName)/{commit}/*</SourceLinkUrl>
+    <SourceLinkOriginUrl>https://github.com/Faithlife/$(RepositoryName).git</SourceLinkOriginUrl>
   </PropertyGroup>
 
   <ItemGroup>
