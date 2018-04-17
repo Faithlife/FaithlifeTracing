@@ -3,7 +3,8 @@
 Creates a new span (that is optionally a child of an existing span).
 
 ```csharp
-public ITrace StartTrace(ITrace parent, TraceKind kind, IEnumerable<ValueTuple<string, string>> tags)
+public ITrace StartTrace(ITrace parent, TraceKind kind, 
+    IEnumerable<ValueTuple<string, string>> tags)
 ```
 
 | parameter | description |

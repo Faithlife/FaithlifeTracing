@@ -3,7 +3,8 @@
 Starts a new [`ITrace`](../ITrace.md) that is a child of *trace*.
 
 ```csharp
-public static ITrace StartChildTrace(this ITrace trace, TraceKind kind, IEnumerable<ValueTuple<string, string>> tags)
+public static ITrace StartChildTrace(this ITrace trace, TraceKind kind, 
+    IEnumerable<ValueTuple<string, string>> tags)
 ```
 
 | parameter | description |

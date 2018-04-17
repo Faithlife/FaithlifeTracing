@@ -3,7 +3,8 @@
 Starts a new trace (that is the root of a trace hierarchy).
 
 ```csharp
-public static ITrace StartNewTrace(this ITracer tracer, TraceKind kind, IEnumerable<ValueTuple<string, string>> tags)
+public static ITrace StartNewTrace(this ITracer tracer, TraceKind kind, 
+    IEnumerable<ValueTuple<string, string>> tags)
 ```
 
 | parameter | description |
