@@ -21,6 +21,18 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		VersionHistory.md = VersionHistory.md
 	EndProjectSection
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Faithlife.Tracing.AspNetMvc", "src\Faithlife.Tracing.AspNetMvc\Faithlife.Tracing.AspNetMvc.csproj", "{EE36AFA3-5BE4-4992-BDC7-E5E703B6A965}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Faithlife.Tracing.AspNetWebApi", "src\Faithlife.Tracing.AspNetWebApi\Faithlife.Tracing.AspNetWebApi.csproj", "{16A797A7-A40C-4194-9304-FB92FB19773F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Faithlife.Tracing.Zipkin", "src\Faithlife.Tracing.Zipkin\Faithlife.Tracing.Zipkin.csproj", "{77FE83AE-1EC6-48ED-885A-32F36A5625B1}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Faithlife.Tracing.Data", "src\Faithlife.Tracing.Data\Faithlife.Tracing.Data.csproj", "{573121C5-6392-4B66-A120-50EC7C4E2E59}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Faithlife.Tracing.Http", "src\Faithlife.Tracing.Http\Faithlife.Tracing.Http.csproj", "{2BD595B2-EC3B-4C2F-9CAA-2FB9E5DA95E3}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Faithlife.Tracing.Zipkin.Tests", "tests\Faithlife.Tracing.Zipkin.Tests\Faithlife.Tracing.Zipkin.Tests.csproj", "{6F1D1611-CBBF-4B53-8DB2-1C34EFA0C4F8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,6 +47,30 @@ Global
 		{DF559AD1-5287-43B1-AB47-61B6F342B0FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DF559AD1-5287-43B1-AB47-61B6F342B0FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DF559AD1-5287-43B1-AB47-61B6F342B0FE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EE36AFA3-5BE4-4992-BDC7-E5E703B6A965}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EE36AFA3-5BE4-4992-BDC7-E5E703B6A965}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EE36AFA3-5BE4-4992-BDC7-E5E703B6A965}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EE36AFA3-5BE4-4992-BDC7-E5E703B6A965}.Release|Any CPU.Build.0 = Release|Any CPU
+		{16A797A7-A40C-4194-9304-FB92FB19773F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{16A797A7-A40C-4194-9304-FB92FB19773F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{16A797A7-A40C-4194-9304-FB92FB19773F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{16A797A7-A40C-4194-9304-FB92FB19773F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{77FE83AE-1EC6-48ED-885A-32F36A5625B1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{77FE83AE-1EC6-48ED-885A-32F36A5625B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{77FE83AE-1EC6-48ED-885A-32F36A5625B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{77FE83AE-1EC6-48ED-885A-32F36A5625B1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{573121C5-6392-4B66-A120-50EC7C4E2E59}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{573121C5-6392-4B66-A120-50EC7C4E2E59}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{573121C5-6392-4B66-A120-50EC7C4E2E59}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{573121C5-6392-4B66-A120-50EC7C4E2E59}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2BD595B2-EC3B-4C2F-9CAA-2FB9E5DA95E3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2BD595B2-EC3B-4C2F-9CAA-2FB9E5DA95E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2BD595B2-EC3B-4C2F-9CAA-2FB9E5DA95E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2BD595B2-EC3B-4C2F-9CAA-2FB9E5DA95E3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6F1D1611-CBBF-4B53-8DB2-1C34EFA0C4F8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6F1D1611-CBBF-4B53-8DB2-1C34EFA0C4F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6F1D1611-CBBF-4B53-8DB2-1C34EFA0C4F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6F1D1611-CBBF-4B53-8DB2-1C34EFA0C4F8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

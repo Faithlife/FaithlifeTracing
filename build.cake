@@ -7,7 +7,6 @@ var target = Argument("target", "Default");
 var configuration = Argument("configuration", "Release");
 var nugetApiKey = Argument("nugetApiKey", "");
 var trigger = Argument("trigger", "");
-var versionSuffix = Argument("versionSuffix", "");
 
 var solutionFileName = "Faithlife.Tracing.sln";
 var docsAssembly = File($"src/Faithlife.Tracing/bin/{configuration}/net461/Faithlife.Tracing.dll").ToString();
@@ -81,10 +80,29 @@ Task("NuGetPackage")
 	.IsDependentOn("UpdateDocs")
 	.Does(() =>
 	{
-		if (string.IsNullOrEmpty(versionSuffix) && !string.IsNullOrEmpty(trigger))
-			versionSuffix = Regex.Match(trigger, @"^v[^\.]+\.[^\.]+\.[^\.]+-(.+)").Groups[1].ToString();
-		foreach (var projectPath in GetFiles("src/**/*.csproj").Select(x => x.FullPath))
-			DotNetCorePack(projectPath, new DotNetCorePackSettings { Configuration = configuration, OutputDirectory = "release", VersionSuffix = versionSuffix });
+		// look for a tag of the form "(prefix-)v1.0.0(-suffix)", where 'prefix' is a project name such as "data" or "aspnetmvc", and 'suffix' is a SemVer suffix
+		var projectSuffix = "";
+		var versionSuffix = "";
+		if (!string.IsNullOrEmpty(trigger))
+		{
+			var match = Regex.Match(trigger, @"^(?:([a-z.]+)-)?v[^\.]+\.[^\.]+\.[^\.]+-(.+)");
+			if (match.Success)
+			{
+				projectSuffix = match.Groups[1].ToString();
+				versionSuffix = match.Groups[2].ToString();
+			}
+		}
+
+		// pack only the project identified by the current tag being built
+		foreach (var projectFile in GetFiles("src/**/*.csproj"))
+		{
+			var projectFileSuffix = Regex.Replace(projectFile.GetFilenameWithoutExtension().ToString(), @"^Faithlife\.Tracing\.?", "");
+			if (projectFileSuffix.Equals(projectSuffix, StringComparison.OrdinalIgnoreCase))
+			{
+				var projectPath = projectFile.FullPath;
+				DotNetCorePack(projectPath, new DotNetCorePackSettings { Configuration = configuration, OutputDirectory = "release", VersionSuffix = versionSuffix });
+			}
+		}
 	});
 
 Task("NuGetPublish")
@@ -92,29 +110,27 @@ Task("NuGetPublish")
 	.Does(() =>
 	{
 		var nupkgPaths = GetFiles("release/*.nupkg").Select(x => x.FullPath).ToList();
-
-		string version = null;
-		foreach (var nupkgPath in nupkgPaths)
+		if (nupkgPaths.Count != 0)
 		{
-			string nupkgVersion = Regex.Match(nupkgPath, @"\.([^\.]+\.[^\.]+\.[^\.]+)\.nupkg$").Groups[1].ToString();
-			if (version == null)
-				version = nupkgVersion;
-			else if (version != nupkgVersion)
-				throw new InvalidOperationException($"Mismatched package versions '{version}' and '{nupkgVersion}'.");
-		}
+			// there should have been only one package created (for the current tag/trigger)
+			var nupkgPath = nupkgPaths[0];
 
-		if (!string.IsNullOrEmpty(nugetApiKey) && (trigger == null || Regex.IsMatch(trigger, "^v[0-9]")))
-		{
-			if (trigger != null && trigger != $"v{version}")
-				throw new InvalidOperationException($"Trigger '{trigger}' doesn't match package version '{version}'.");
+			// extract the nupkg version from the file path
+			var versionMatch = Regex.Match(nupkgPath, @"\.([0-9]+\.[0-9]+\.[0-9]+(?:-[a-zA-Z0-9.]+)?)\.nupkg$");
+			var version = versionMatch.Groups[1].ToString();
 
-			var pushSettings = new NuGetPushSettings { ApiKey = nugetApiKey, Source = nugetSource };
-			foreach (var nupkgPath in nupkgPaths)
-				NuGetPush(nupkgPath, pushSettings);
-		}
-		else
-		{
-			Information("To publish this package, push this git tag: v" + version);
+			var projectFileSuffix = Regex.Replace(System.IO.Path.GetFileName(nupkgPath.Replace(versionMatch.Groups[0].ToString(), "")), @"^Faithlife\.Tracing\.?", "");
+			if (!string.IsNullOrEmpty(nugetApiKey) && Regex.IsMatch(trigger ?? "", "^(?:([a-z.]+)-)?v[0-9]"))
+			{
+				if (trigger != null && trigger != $"{(projectFileSuffix != "" ? (projectFileSuffix.ToLowerInvariant() + "-") : "")}v{version}")
+					throw new InvalidOperationException($"Trigger '{trigger}' doesn't match package version '{version}'.");
+
+				NuGetPush(nupkgPath, new NuGetPushSettings { ApiKey = nugetApiKey, Source = nugetSource });
+			}
+			else
+			{
+				Information("To publish this package, push this git tag: v" + version);
+			}
 		}
 	});
 
