@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace Faithlife.Tracing.Data
 {
 	internal sealed class TracingDbDataReader : DbDataReader
-#if !NET461
+#if !NET461 && !NET47
 		, IDbColumnSchemaGenerator
 #endif
 	{
@@ -98,7 +98,7 @@ namespace Faithlife.Tracing.Data
 		public override int VisibleFieldCount => m_reader.VisibleFieldCount;
 		public override object this[int ordinal] => m_reader[ordinal];
 		public override object this[string name] => m_reader[name];
-#if !NET461
+#if !NET461 && !NET47
 		public ReadOnlyCollection<DbColumn> GetColumnSchema() => ((IDbColumnSchemaGenerator) m_reader).GetColumnSchema();
 #endif
 
