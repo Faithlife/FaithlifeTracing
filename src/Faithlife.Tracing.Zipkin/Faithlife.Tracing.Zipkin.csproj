@@ -10,7 +10,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="zipkin4net" Version="1.2.0" />
+    <PackageReference Include="Faithlife.zipkin4net" Version="1.2.1" />
   </ItemGroup>
 
   <ItemGroup>
