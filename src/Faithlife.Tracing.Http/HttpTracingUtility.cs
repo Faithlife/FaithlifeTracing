@@ -41,7 +41,7 @@ namespace Faithlife.Tracing.Http
 
 			protected override HttpResponseMessage ProcessResponse(HttpResponseMessage response, CancellationToken cancellationToken)
 			{
-				var trace = (ITrace) response.RequestMessage.Properties[c_traceKey];
+				var trace = response.RequestMessage.Properties.TryGetValue(c_traceKey, out var t) ? (ITrace) t : null;
 				if (trace != null)
 				{
 					trace.SetTag(TraceTagNames.HttpStatusCode, ((int) response.StatusCode).ToString());
