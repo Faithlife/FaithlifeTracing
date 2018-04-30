@@ -7,6 +7,7 @@
 | interface [ITrace](Faithlife.Tracing/ITrace.md) | [`ITrace`](Faithlife.Tracing/ITrace.md) represents a span in a trace. |
 | interface [ITraceProvider](Faithlife.Tracing/ITraceProvider.md) | [`ITraceProvider`](Faithlife.Tracing/ITraceProvider.md) is implemented by an object that stores the current trace (for the active request, etc.) and can return it. |
 | interface [ITracer](Faithlife.Tracing/ITracer.md) | [`ITracer`](Faithlife.Tracing/ITracer.md) can create new spans and serialize/deserialize them. |
+| class [NullTraceProvider](Faithlife.Tracing/NullTraceProvider.md) | An [`ITraceProvider`](Faithlife.Tracing/ITraceProvider.md) that returns `null` for `CurrentTrace`. |
 | static class [TraceExtensions](Faithlife.Tracing/TraceExtensions.md) | Provides helper methods for working with [`ITrace`](Faithlife.Tracing/ITrace.md) and [`ITracer`](Faithlife.Tracing/ITracer.md). |
 | enum [TraceKind](Faithlife.Tracing/TraceKind.md) | Specifies the type of trace span being created. |
 | static class [TraceTagNames](Faithlife.Tracing/TraceTagNames.md) | Defines string constants for common span tags. |
