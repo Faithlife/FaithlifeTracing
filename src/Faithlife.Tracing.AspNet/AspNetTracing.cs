@@ -46,7 +46,7 @@ namespace Faithlife.Tracing.AspNet
 			var httpContext = ((HttpApplication) sender).Context;
 			var headers = httpContext.Request.Headers;
 			var parentTrace = Tracer.ExtractTrace(x => headers[x]);
-			if (parentTrace != null || GetHashCode(Interlocked.Increment(ref s_requestCount)) % c_samplingPrecision < SamplingRate)
+			if (parentTrace != null || headers["X-B3-Flags"] == "1" || GetHashCode(Interlocked.Increment(ref s_requestCount)) % c_samplingPrecision < SamplingRate)
 			{
 				var trace = Tracer.StartTrace(parentTrace, TraceKind.Server,
 					new[]
