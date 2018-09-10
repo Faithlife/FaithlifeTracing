@@ -38,6 +38,34 @@ or (AutoFac):
 
     builder.Register<ITraceProvider>(c => AspNetWebApiTracing.GetProvider(HttpContext.Current)).InstancePerRequest();
 
+### ASP.NET Core
+
+Install the `Faithlife.Tracing.AspNetCore` and `Faithlife.Tracing.Zipkin` packages. Add the following to your `Setup` class:
+
+```
+public void ConfigureServices(IServiceCollection services)
+{
+    // ...
+
+    // If using MVC, add tracing support
+    services.AddMvc().AddTracing();
+}
+
+public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+{
+    // ...
+
+    app.UseTracing(settings =>
+    {
+        settings.ServiceName = "MyService";
+        settings.CreateTracer = () => ZipkinTracing.CreateTracer(new Uri("http://zipkin-collector:9411"));
+    });
+
+    // Add tracing before MVC, if using
+    app.UseMvcWithDefaultRoute();
+}
+```
+
 ### ADO.NET
 
 Install the `Faithlife.Tracing.Data` package. Modify your code that creates a `DbConnection` object (e.g.,
