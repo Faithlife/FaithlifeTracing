@@ -33,6 +33,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Faithlife.Tracing.Http", "s
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Faithlife.Tracing.Zipkin.Tests", "tests\Faithlife.Tracing.Zipkin.Tests\Faithlife.Tracing.Zipkin.Tests.csproj", "{6F1D1611-CBBF-4B53-8DB2-1C34EFA0C4F8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Faithlife.Tracing.AspNetCore", "src\Faithlife.Tracing.AspNetCore\Faithlife.Tracing.AspNetCore.csproj", "{30D77495-61B3-48C7-8975-2551BA967896}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -71,6 +73,10 @@ Global
 		{6F1D1611-CBBF-4B53-8DB2-1C34EFA0C4F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6F1D1611-CBBF-4B53-8DB2-1C34EFA0C4F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6F1D1611-CBBF-4B53-8DB2-1C34EFA0C4F8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{30D77495-61B3-48C7-8975-2551BA967896}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{30D77495-61B3-48C7-8975-2551BA967896}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{30D77495-61B3-48C7-8975-2551BA967896}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{30D77495-61B3-48C7-8975-2551BA967896}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
