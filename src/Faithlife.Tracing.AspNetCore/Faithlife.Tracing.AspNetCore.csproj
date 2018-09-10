@@ -2,8 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <Description>Integrates Faithlife.Tracing with ASP.NET MVC</Description>
-    <PackageTags>AspNet;AspNetMvc;Tracing</PackageTags>
+    <Description>Integrates Faithlife.Tracing with ASP.NET Core</Description>
+    <PackageTags>AspNet;AspNetCore;Tracing</PackageTags>
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
     <NoWarn>$(NoWarn);1591</NoWarn>
   </PropertyGroup>
