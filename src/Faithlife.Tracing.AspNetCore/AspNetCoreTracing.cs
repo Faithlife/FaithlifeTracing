@@ -69,13 +69,15 @@ namespace Faithlife.Tracing.AspNetCore
 			return builder;
 		}
 
-		public static ITracer Tracer { get; set; }
+		public static ITraceProvider GetProvider(HttpContext context) => GetRequestActionTraceProvider(context) ?? NullTraceProvider.Instance;
 
-		public static int SamplingRate { get; set; }
+		internal static ITracer Tracer { get; set; }
+
+		internal static int SamplingRate { get; set; }
 
 		internal static string GetServiceName(HttpContext context) => (string) context?.Items[c_serviceNameKey];
 
-		internal static RequestActionTraceProvider GetProvider(HttpContext context) => (RequestActionTraceProvider) context?.Items[c_providerKey];
+		internal static RequestActionTraceProvider GetRequestActionTraceProvider(HttpContext context) => (RequestActionTraceProvider) context?.Items[c_providerKey];
 
 		// From http://burtleburtle.net/bob/hash/integer.html
 		private static uint GetHashCode(int value)

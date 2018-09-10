@@ -8,7 +8,7 @@ namespace Faithlife.Tracing.AspNetCore
 	{
 		public override void OnActionExecuting(ActionExecutingContext context)
 		{
-			var traceProvider = AspNetCoreTracing.GetProvider(context.HttpContext);
+			var traceProvider = AspNetCoreTracing.GetRequestActionTraceProvider(context.HttpContext);
 			var requestTrace = traceProvider?.CurrentTrace;
 			if (requestTrace == null)
 				return;
@@ -26,7 +26,7 @@ namespace Faithlife.Tracing.AspNetCore
 
 		public override void OnActionExecuted(ActionExecutedContext context)
 		{
-			AspNetCoreTracing.GetProvider(context.HttpContext)?.FinishActionTrace();
+			AspNetCoreTracing.GetRequestActionTraceProvider(context.HttpContext)?.FinishActionTrace();
 			base.OnActionExecuted(context);
 		}
 	}
