@@ -14,9 +14,10 @@ namespace Faithlife.Tracing.AspNetCore
 				return;
 
 			var routeData = context.HttpContext.GetRouteData();
-			var route = routeData.Routers.OfType<Route>().FirstOrDefault();
-			if (route != null)
-				requestTrace.SetTag(TraceTagNames.Operation, route.ParsedTemplate.TemplateText);
+			var operation = context.ActionDescriptor.AttributeRouteInfo?.Template ??
+				routeData.Routers.OfType<Route>().Select(x => x.ParsedTemplate.TemplateText).FirstOrDefault();
+            if (operation != null)
+				requestTrace.SetTag(TraceTagNames.Operation, operation);
 
 			var serviceName = AspNetCoreTracing.GetServiceName(context.HttpContext);
 			traceProvider.StartActionTrace(serviceName, (string) routeData.Values["controller"], (string) routeData.Values["action"]);
