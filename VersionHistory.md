@@ -7,6 +7,7 @@ is updated in preparation for publishing an updated NuGet package.
 
 Prefix the description of the change with `[major]`, `[minor]` or `[patch]` in accordance with [SemVer](http://semver.org).
 
+* [major] **Breaking** Rename `ITrace` to `ITraceSpan`; rename all related types.
 * [minor] Add `NullTraceProvider`.
 * [minor] Support `X-B3-Flags: 1`.
 

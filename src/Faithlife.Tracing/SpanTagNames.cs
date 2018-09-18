@@ -4,7 +4,7 @@ namespace Faithlife.Tracing
 	/// Defines string constants for common span tags.
 	/// </summary>
 	/// <remarks>See <a href="https://github.com/opentracing/specification/blob/master/semantic_conventions.md">OpenTracing Semantic Conventions</a>.</remarks>
-	public static class TraceTagNames
+	public static class SpanTagNames
 	{
 		/// <summary>
 		/// Database instance name.

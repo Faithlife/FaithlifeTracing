@@ -45,19 +45,19 @@ namespace Faithlife.Tracing.AspNet
 
 			var httpContext = ((HttpApplication) sender).Context;
 			var headers = httpContext.Request.Headers;
-			var parentTrace = Tracer.ExtractTrace(x => headers[x]);
-			if (parentTrace != null || headers["X-B3-Flags"] == "1" || GetHashCode(Interlocked.Increment(ref s_requestCount)) % c_samplingPrecision < SamplingRate)
+			var parentSpan = Tracer.ExtractSpan(x => headers[x]);
+			if (parentSpan != null || headers["X-B3-Flags"] == "1" || GetHashCode(Interlocked.Increment(ref s_requestCount)) % c_samplingPrecision < SamplingRate)
 			{
-				var trace = Tracer.StartTrace(parentTrace, TraceKind.Server,
+				var span = Tracer.StartSpan(parentSpan, TraceSpanKind.Server,
 					new[]
 					{
-						(TraceTagNames.Service, s_serviceName),
-						(TraceTagNames.HttpHost, httpContext.Server.MachineName),
-						(TraceTagNames.HttpMethod, httpContext.Request.HttpMethod),
-						(TraceTagNames.HttpUrl, httpContext.Request.Url.OriginalString),
-						(TraceTagNames.HttpPath, httpContext.Request.RawUrl),
+						(SpanTagNames.Service, s_serviceName),
+						(SpanTagNames.HttpHost, httpContext.Server.MachineName),
+						(SpanTagNames.HttpMethod, httpContext.Request.HttpMethod),
+						(SpanTagNames.HttpUrl, httpContext.Request.Url.OriginalString),
+						(SpanTagNames.HttpPath, httpContext.Request.RawUrl),
 					});
-				var provider = new RequestActionTraceProvider(trace);
+				var provider = new RequestActionTraceSpanProvider(span);
 				HttpContext.Current.Items[c_providerKey] = provider;
 			}
 		}
@@ -67,13 +67,13 @@ namespace Faithlife.Tracing.AspNet
 			var provider = GetProvider(((HttpApplication) sender).Context);
 			if (provider != null)
 			{
-				provider.CurrentTrace.SetTag(TraceTagNames.HttpStatusCode, HttpContext.Current.Response.StatusCode.ToString(CultureInfo.InvariantCulture));
-				provider.FinishRequestTrace();
+				provider.CurrentSpan.SetTag(SpanTagNames.HttpStatusCode, HttpContext.Current.Response.StatusCode.ToString(CultureInfo.InvariantCulture));
+				provider.FinishRequestSpan();
 			}
 		}
 
-		public static RequestActionTraceProvider GetProvider(HttpContextBase context) => (RequestActionTraceProvider) context?.Items[c_providerKey];
-		public static RequestActionTraceProvider GetProvider(HttpContext context) => (RequestActionTraceProvider) context?.Items[c_providerKey];
+		public static RequestActionTraceSpanProvider GetProvider(HttpContextBase context) => (RequestActionTraceSpanProvider) context?.Items[c_providerKey];
+		public static RequestActionTraceSpanProvider GetProvider(HttpContext context) => (RequestActionTraceSpanProvider) context?.Items[c_providerKey];
 
 		public static ITracer Tracer { get; set; }
 

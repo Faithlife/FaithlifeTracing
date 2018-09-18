@@ -14,9 +14,9 @@ namespace Faithlife.Tracing.Data
 		, IDbColumnSchemaGenerator
 #endif
 	{
-		public TracingDbDataReader(ITrace trace, DbDataReader reader)
+		public TracingDbDataReader(ITraceSpan span, DbDataReader reader)
 		{
-			m_trace = trace;
+			m_span = span;
 			m_reader = reader;
 		}
 
@@ -24,10 +24,10 @@ namespace Faithlife.Tracing.Data
 		public override void Close()
 		{
 			m_reader.Close();
-			if (m_trace != null)
+			if (m_span != null)
 			{
-				m_trace.Dispose();
-				m_trace = null;
+				m_span.Dispose();
+				m_span = null;
 			}
 		}
 #endif
@@ -39,10 +39,10 @@ namespace Faithlife.Tracing.Data
 				if (disposing)
 				{
 					m_reader.Dispose();
-					if (m_trace != null)
+					if (m_span != null)
 					{
-						m_trace.Dispose();
-						m_trace = null;
+						m_span.Dispose();
+						m_span = null;
 					}
 				}
 			}
@@ -102,7 +102,7 @@ namespace Faithlife.Tracing.Data
 		public ReadOnlyCollection<DbColumn> GetColumnSchema() => ((IDbColumnSchemaGenerator) m_reader).GetColumnSchema();
 #endif
 
-		ITrace m_trace;
+		ITraceSpan m_span;
 		readonly DbDataReader m_reader;
 	}
 }

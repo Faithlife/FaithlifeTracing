@@ -33,38 +33,38 @@ namespace Faithlife.Tracing.Data
 
 		protected override DbDataReader ExecuteDbDataReader(CommandBehavior behavior)
 		{
-			var trace = BeginTrace();
-			return new TracingDbDataReader(trace, m_command.ExecuteReader(behavior));
+			var span = BeginSpan();
+			return new TracingDbDataReader(span, m_command.ExecuteReader(behavior));
 		}
 
 		public override int ExecuteNonQuery()
 		{
-			using (BeginTrace())
+			using (BeginSpan())
 				return m_command.ExecuteNonQuery();
 		}
 
 		public override async Task<int> ExecuteNonQueryAsync(CancellationToken cancellationToken)
 		{
-			using (BeginTrace())
+			using (BeginSpan())
 				return await m_command.ExecuteNonQueryAsync(cancellationToken).ConfigureAwait(false);
 		}
 
 		protected override async Task<DbDataReader> ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
 		{
-			var trace = BeginTrace();
+			var span = BeginSpan();
 			var reader = await m_command.ExecuteReaderAsync(behavior, cancellationToken).ConfigureAwait(false);
-			return new TracingDbDataReader(trace, reader);
+			return new TracingDbDataReader(span, reader);
 		}
 
 		public override async Task<object> ExecuteScalarAsync(CancellationToken cancellationToken)
 		{
-			using (BeginTrace())
+			using (BeginSpan())
 				return await m_command.ExecuteScalarAsync(cancellationToken).ConfigureAwait(false);
 		}
 
 		public override object ExecuteScalar()
 		{
-			using (BeginTrace())
+			using (BeginSpan())
 				return m_command.ExecuteScalar();
 		}
 
@@ -104,10 +104,10 @@ namespace Faithlife.Tracing.Data
 			set => m_command.UpdatedRowSource = value;
 		}
 
-		private ITrace BeginTrace()
+		private ITraceSpan BeginSpan()
 		{
-			var currentTrace = m_connection.TraceProvider?.CurrentTrace;
-			if (currentTrace == null)
+			var currentSpan = m_connection.TraceSpanProvider?.CurrentSpan;
+			if (currentSpan == null)
 				return null;
 
 			var sql = CommandText;
@@ -134,14 +134,14 @@ namespace Faithlife.Tracing.Data
 				}
 			}
 
-			return currentTrace.StartChildTrace(TraceKind.Client,
+			return currentSpan.StartChildSpan(TraceSpanKind.Client,
 				new[]
 				{
-					(TraceTagNames.Service, m_connection.WrappedConnection.DataSource),
-					(TraceTagNames.Operation, rpc),
-					(TraceTagNames.DatabaseInstance, m_connection.WrappedConnection.Database),
-					(TraceTagNames.DatabaseStatement, CommandText),
-					(TraceTagNames.DatabaseType, "sql"),
+					(SpanTagNames.Service, m_connection.WrappedConnection.DataSource),
+					(SpanTagNames.Operation, rpc),
+					(SpanTagNames.DatabaseInstance, m_connection.WrappedConnection.Database),
+					(SpanTagNames.DatabaseStatement, CommandText),
+					(SpanTagNames.DatabaseType, "sql"),
 				});
 		}
 

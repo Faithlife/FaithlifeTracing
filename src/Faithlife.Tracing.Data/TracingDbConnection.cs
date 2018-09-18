@@ -12,12 +12,12 @@ namespace Faithlife.Tracing.Data
 {
 	public class TracingDbConnection : DbConnection
 	{
-		public static DbConnection Create(DbConnection connection, ITraceProvider traceProvider) => new TracingDbConnection(connection ?? throw new ArgumentNullException(nameof(connection)), traceProvider);
+		public static DbConnection Create(DbConnection connection, ITraceSpanProvider traceSpanProvider) => new TracingDbConnection(connection ?? throw new ArgumentNullException(nameof(connection)), traceSpanProvider);
 
-		internal TracingDbConnection(DbConnection connection, ITraceProvider traceProvider)
+		internal TracingDbConnection(DbConnection connection, ITraceSpanProvider traceSpanProvider)
 		{
 			WrappedConnection = connection;
-			TraceProvider = traceProvider;
+			TraceSpanProvider = traceSpanProvider;
 		}
 
 		protected override DbTransaction BeginDbTransaction(IsolationLevel isolationLevel) => WrappedConnection.BeginTransaction(isolationLevel);
@@ -58,13 +58,13 @@ namespace Faithlife.Tracing.Data
 
 		public override void Open()
 		{
-			using (BeginTrace())
+			using (BeginSpan())
 				WrappedConnection.Open();
 		}
 
 		public override async Task OpenAsync(CancellationToken cancellationToken)
 		{
-			using (BeginTrace())
+			using (BeginSpan())
 				await WrappedConnection.OpenAsync(cancellationToken).ConfigureAwait(false);
 		}
 
@@ -108,17 +108,17 @@ namespace Faithlife.Tracing.Data
 		}
 
 		internal DbConnection WrappedConnection { get; }
-		internal ITraceProvider TraceProvider { get; }
+		internal ITraceSpanProvider TraceSpanProvider { get; }
 
-		private ITrace BeginTrace()
+		private ITraceSpan BeginSpan()
 		{
-			return TraceProvider?.CurrentTrace.StartChildTrace(TraceKind.Client,
+			return TraceSpanProvider?.CurrentSpan.StartChildSpan(TraceSpanKind.Client,
 				new[]
 				{
-					(TraceTagNames.Service, WrappedConnection.DataSource),
-					(TraceTagNames.Operation, "OpenConnection"),
-					(TraceTagNames.DatabaseInstance, WrappedConnection.Database),
-					(TraceTagNames.DatabaseType, "sql"),
+					(SpanTagNames.Service, WrappedConnection.DataSource),
+					(SpanTagNames.Operation, "OpenConnection"),
+					(SpanTagNames.DatabaseInstance, WrappedConnection.Database),
+					(SpanTagNames.DatabaseType, "sql"),
 				});
 		}
 	}

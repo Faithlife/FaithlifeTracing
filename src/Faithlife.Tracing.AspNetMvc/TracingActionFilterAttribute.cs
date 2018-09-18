@@ -13,23 +13,23 @@ namespace Faithlife.Tracing.AspNetMvc
 
 		public override void OnActionExecuting(ActionExecutingContext filterContext)
 		{
-			var traceProvider = AspNetTracing.GetProvider(filterContext.HttpContext);
-			var requestTrace = traceProvider?.CurrentTrace;
-			if (requestTrace == null)
+			var provider = AspNetTracing.GetProvider(filterContext.HttpContext);
+			var requestSpan = provider?.CurrentSpan;
+			if (requestSpan == null)
 				return;
 
 			var routeData = filterContext.Controller.ControllerContext.RouteData;
 			if (routeData.Route is Route route)
-				requestTrace.SetTag(TraceTagNames.Operation, route.Url);
+				requestSpan.SetTag(SpanTagNames.Operation, route.Url);
 
-			traceProvider.StartActionTrace(m_serviceName, (string) routeData.Values["controller"], (string) routeData.Values["action"]);
+			provider.StartActionSpan(m_serviceName, (string) routeData.Values["controller"], (string) routeData.Values["action"]);
 
 			base.OnActionExecuting(filterContext);
 		}
 
 		public override void OnActionExecuted(ActionExecutedContext filterContext)
 		{
-			AspNetTracing.GetProvider(filterContext.HttpContext)?.FinishActionTrace();
+			AspNetTracing.GetProvider(filterContext.HttpContext)?.FinishActionSpan();
 			base.OnActionExecuted(filterContext);
 		}
 

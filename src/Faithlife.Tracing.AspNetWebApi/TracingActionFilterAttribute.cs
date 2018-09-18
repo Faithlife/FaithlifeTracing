@@ -14,20 +14,20 @@ namespace Faithlife.Tracing.AspNetWebApi
 
 		public override void OnActionExecuting(HttpActionContext actionContext)
 		{
-			var traceProvider = AspNetTracing.GetProvider(HttpContext.Current);
-			var requestTrace = traceProvider?.CurrentTrace;
-			if (requestTrace == null)
+			var provider = AspNetTracing.GetProvider(HttpContext.Current);
+			var requestSpan = provider?.CurrentSpan;
+			if (requestSpan == null)
 				return;
 
-			requestTrace.SetTag(TraceTagNames.Operation, actionContext.ControllerContext.RouteData.Route.RouteTemplate);
-			traceProvider.StartActionTrace(m_serviceName, actionContext.ControllerContext.ControllerDescriptor.ControllerName, actionContext.ActionDescriptor.ActionName);
+			requestSpan.SetTag(SpanTagNames.Operation, actionContext.ControllerContext.RouteData.Route.RouteTemplate);
+			provider.StartActionSpan(m_serviceName, actionContext.ControllerContext.ControllerDescriptor.ControllerName, actionContext.ActionDescriptor.ActionName);
 
 			base.OnActionExecuting(actionContext);
 		}
 
 		public override void OnActionExecuted(HttpActionExecutedContext actionExecutedContext)
 		{
-			AspNetTracing.GetProvider(HttpContext.Current)?.FinishActionTrace();
+			AspNetTracing.GetProvider(HttpContext.Current)?.FinishActionSpan();
 			base.OnActionExecuted(actionExecutedContext);
 		}
 

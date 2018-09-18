@@ -7,65 +7,65 @@ namespace Faithlife.Tracing.Http
 {
 	public static class HttpTracingUtility
 	{
-		public static IDisposable StartHttpTrace(this ITraceProvider traceProvider, HttpWebRequest request)
+		public static IDisposable StartHttpSpan(this ITraceSpanProvider traceSpanProvider, HttpWebRequest request)
 		{
 			if (request == null)
 				throw new ArgumentNullException(nameof(request));
 
-			var requestTrace = SetHttpHeadersAndCreateTrace(traceProvider?.CurrentTrace, request.RequestUri, (k, v) => request.Headers[k] = v);
-			requestTrace?.SetTag(TraceTagNames.HttpMethod, request.Method);
-			return requestTrace;
+			var requestSpan = SetHttpHeadersAndCreateSpan(traceSpanProvider?.CurrentSpan, request.RequestUri, (k, v) => request.Headers[k] = v);
+			requestSpan?.SetTag(SpanTagNames.HttpMethod, request.Method);
+			return requestSpan;
 		}
 
-		public static HttpMessageHandler CreateHttpMessageHandler(ITraceProvider traceProvider, HttpMessageHandler messageHandler) => new TracingHttpMessageHandler(traceProvider, messageHandler);
+		public static HttpMessageHandler CreateHttpMessageHandler(ITraceSpanProvider traceSpanProvider, HttpMessageHandler messageHandler) => new TracingHttpMessageHandler(traceSpanProvider, messageHandler);
 
 		private sealed class TracingHttpMessageHandler : MessageProcessingHandler
 		{
-			public TracingHttpMessageHandler(ITraceProvider traceProvider, HttpMessageHandler innerHandler)
+			public TracingHttpMessageHandler(ITraceSpanProvider traceSpanProvider, HttpMessageHandler innerHandler)
 				: base(innerHandler)
 			{
-				m_traceProvider = traceProvider;
+				m_traceSpanProvider = traceSpanProvider;
 			}
 
 			protected override HttpRequestMessage ProcessRequest(HttpRequestMessage request, CancellationToken cancellationToken)
 			{
-				var currentTrace = m_traceProvider?.CurrentTrace;
-				var requestTrace = SetHttpHeadersAndCreateTrace(currentTrace, request.RequestUri, (k, v) => request.Headers.Add(k, v));
-				if (requestTrace != null)
+				var currentSpan = m_traceSpanProvider?.CurrentSpan;
+				var requestSpan = SetHttpHeadersAndCreateSpan(currentSpan, request.RequestUri, (k, v) => request.Headers.Add(k, v));
+				if (requestSpan != null)
 				{
-					requestTrace.SetTag(TraceTagNames.HttpMethod, request.Method.ToString());
-					request.Properties[c_traceKey] = requestTrace;
+					requestSpan.SetTag(SpanTagNames.HttpMethod, request.Method.ToString());
+					request.Properties[c_spanKey] = requestSpan;
 				}
 				return request;
 			}
 
 			protected override HttpResponseMessage ProcessResponse(HttpResponseMessage response, CancellationToken cancellationToken)
 			{
-				var trace = response.RequestMessage.Properties.TryGetValue(c_traceKey, out var t) ? (ITrace) t : null;
-				if (trace != null)
+				var span = response.RequestMessage.Properties.TryGetValue(c_spanKey, out var t) ? (ITraceSpan) t : null;
+				if (span != null)
 				{
-					trace.SetTag(TraceTagNames.HttpStatusCode, ((int) response.StatusCode).ToString());
-					trace.Dispose();
+					span.SetTag(SpanTagNames.HttpStatusCode, ((int) response.StatusCode).ToString());
+					span.Dispose();
 				}
 				return response;
 			}
 
-			const string c_traceKey = "Faithlife.Tracing.Http.TracingHttpMessageHandler.Trace";
+			const string c_spanKey = "Faithlife.Tracing.Http.TracingHttpMessageHandler.Span";
 
-			readonly ITraceProvider m_traceProvider;
+			readonly ITraceSpanProvider m_traceSpanProvider;
 		}
 
-		private static ITrace SetHttpHeadersAndCreateTrace(ITrace currentTrace, Uri requestUri, Action<string, string> setHeader)
+		private static ITraceSpan SetHttpHeadersAndCreateSpan(ITraceSpan currentSpan, Uri requestUri, Action<string, string> setHeader)
 		{
-			var requestTrace = currentTrace?.StartChildTrace(TraceKind.Client,
+			var requestSpan = currentSpan?.StartChildSpan(TraceSpanKind.Client,
 				new[]
 				{
-					(TraceTagNames.Service, requestUri.Authority),
-					(TraceTagNames.Operation, requestUri.AbsolutePath),
-					(TraceTagNames.HttpUrl, requestUri.AbsoluteUri),
+					(SpanTagNames.Service, requestUri.Authority),
+					(SpanTagNames.Operation, requestUri.AbsolutePath),
+					(SpanTagNames.HttpUrl, requestUri.AbsoluteUri),
 				});
-			requestTrace?.Tracer.InjectTrace(requestTrace, setHeader);
-			return requestTrace;
+			requestSpan?.Tracer.InjectSpan(requestSpan, setHeader);
+			return requestSpan;
 		}
 	}
 }

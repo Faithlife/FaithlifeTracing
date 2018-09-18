@@ -3,7 +3,7 @@ namespace Faithlife.Tracing
 	/// <summary>
 	/// Specifies the type of trace span being created.
 	/// </summary>
-	public enum TraceKind
+	public enum TraceSpanKind
 	{
 		/// <summary>
 		/// The client side of an RPC.

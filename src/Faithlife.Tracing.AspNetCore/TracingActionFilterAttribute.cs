@@ -8,26 +8,26 @@ namespace Faithlife.Tracing.AspNetCore
 	{
 		public override void OnActionExecuting(ActionExecutingContext context)
 		{
-			var traceProvider = AspNetCoreTracing.GetRequestActionTraceProvider(context.HttpContext);
-			var requestTrace = traceProvider?.CurrentTrace;
-			if (requestTrace == null)
+			var provider = AspNetCoreTracing.GetRequestActionTraceSpanProvider(context.HttpContext);
+			var requestSpan = provider?.CurrentSpan;
+			if (requestSpan == null)
 				return;
 
 			var routeData = context.HttpContext.GetRouteData();
 			var operation = context.ActionDescriptor.AttributeRouteInfo?.Template ??
 				routeData.Routers.OfType<Route>().Select(x => x.ParsedTemplate.TemplateText).FirstOrDefault();
             if (operation != null)
-				requestTrace.SetTag(TraceTagNames.Operation, operation);
+				requestSpan.SetTag(SpanTagNames.Operation, operation);
 
 			var serviceName = AspNetCoreTracing.GetServiceName(context.HttpContext);
-			traceProvider.StartActionTrace(serviceName, (string) routeData.Values["controller"], (string) routeData.Values["action"]);
+			provider.StartActionSpan(serviceName, (string) routeData.Values["controller"], (string) routeData.Values["action"]);
 
 			base.OnActionExecuting(context);
 		}
 
 		public override void OnActionExecuted(ActionExecutedContext context)
 		{
-			AspNetCoreTracing.GetRequestActionTraceProvider(context.HttpContext)?.FinishActionTrace();
+			AspNetCoreTracing.GetRequestActionTraceSpanProvider(context.HttpContext)?.FinishActionSpan();
 			base.OnActionExecuted(context);
 		}
 	}

@@ -2,28 +2,28 @@ using zipkin4net;
 
 namespace Faithlife.Tracing.Zipkin
 {
-	internal sealed class ZipkinTrace : ITrace
+	internal sealed class ZipkinTraceSpan : ITraceSpan
 	{
-		public ZipkinTrace(ZipkinTracer tracer, Trace trace, TraceKind traceKind)
+		public ZipkinTraceSpan(ZipkinTracer tracer, Trace trace, TraceSpanKind kind)
 		{
 			Tracer = tracer;
-			m_traceKind = traceKind;
+			m_kind = kind;
 			WrappedTrace = trace;
 		}
 
-		public ITrace CurrentTrace => this;
+		public ITraceSpan CurrentSpan => this;
 
 		public void Dispose()
 		{
-			WrappedTrace.Record(m_traceKind == TraceKind.Client ? Annotations.ClientRecv() :
-				m_traceKind == TraceKind.Server ? Annotations.ServerSend() : Annotations.LocalOperationStop());
+			WrappedTrace.Record(m_kind == TraceSpanKind.Client ? Annotations.ClientRecv() :
+				m_kind == TraceSpanKind.Server ? Annotations.ServerSend() : Annotations.LocalOperationStop());
 		}
 
 		public void SetTag(string name, string value)
 		{
-			if (name == TraceTagNames.Service)
+			if (name == SpanTagNames.Service)
 				WrappedTrace.Record(Annotations.ServiceName(Truncate(value, 128)));
-			else if (name == TraceTagNames.Operation)
+			else if (name == SpanTagNames.Operation)
 				WrappedTrace.Record(Annotations.Rpc(Truncate(value, 128)));
 			else
 				WrappedTrace.Record(Annotations.Tag(name, value));
@@ -37,6 +37,6 @@ namespace Faithlife.Tracing.Zipkin
 
 		internal Trace WrappedTrace { get; }
 
-		readonly TraceKind m_traceKind;
+		readonly TraceSpanKind m_kind;
 	}
 }

@@ -9,7 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="..\Faithlife.Tracing.AspNet\RequestActionTraceProvider.cs" />
+    <Compile Include="..\Faithlife.Tracing.AspNet\RequestActionTraceSpanProvider.cs" />
   </ItemGroup>
 
   <ItemGroup>
