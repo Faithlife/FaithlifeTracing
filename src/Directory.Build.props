@@ -9,7 +9,7 @@
     <DebugSymbols>True</DebugSymbols>
     <RepositoryName>FaithlifeTracing</RepositoryName>
     <PackageLicenseUrl>https://raw.githubusercontent.com/Faithlife/$(RepositoryName)/master/LICENSE</PackageLicenseUrl>
-    <PackageProjectUrl>https://github.com/Faithlife/$(RepositoryName)</PackageProjectUrl>
+    <PackageProjectUrl>https://faithlife.github.io/$(RepositoryName)</PackageProjectUrl>
     <PackageReleaseNotes>https://github.com/Faithlife/$(RepositoryName)/blob/master/VersionHistory.md#released</PackageReleaseNotes>
     <RepositoryUrl>https://github.com/Faithlife/$(RepositoryName).git</RepositoryUrl>
     <Authors>Faithlife Corporation</Authors>
