@@ -19,7 +19,7 @@ namespace Faithlife.Tracing.AspNetMvc
 				return;
 
 			var routeData = filterContext.Controller.ControllerContext.RouteData;
-			if (routeData.Route is Route route)
+			if (routeData.Route is Route route && !filterContext.IsChildAction)
 				requestSpan.SetTag(SpanTagNames.Operation, route.Url);
 
 			provider.StartActionSpan(m_serviceName, (string) routeData.Values["controller"], (string) routeData.Values["action"]);
