@@ -1,26 +1,25 @@
-# TraceExtensions.StartNewTrace method
+# TraceExtensions.StartChildSpan method
 
-Starts a new span (that is the root of a trace hierarchy).
+Starts a new [`ITraceSpan`](../ITraceSpan.md) that is a child of *traceSpan*.
 
 ```csharp
-public static ITraceSpan StartNewTrace(this ITracer tracer, TraceSpanKind kind, 
+public static ITraceSpan StartChildSpan(this ITraceSpan traceSpan, TraceSpanKind kind, 
     IEnumerable<ValueTuple<string, string>> tags)
 ```
 
 | parameter | description |
 | --- | --- |
-| tracer | The [`ITracer`](../ITracer.md). |
+| traceSpan | (Optional) The current span. If this is `null`, this method returns `null`. |
 | kind | The [`TraceSpanKind`](../TraceSpanKind.md). |
 | tags | A sequence of span tags; see [`SetTag`](../ITraceSpan/SetTag.md). |
 
 ## Return Value
 
-A new [`ITraceSpan`](../ITraceSpan.md).
+A new [`ITraceSpan`](../ITraceSpan.md), or `null`.
 
 ## See Also
 
 * interface [ITraceSpan](../ITraceSpan.md)
-* interface [ITracer](../ITracer.md)
 * enum [TraceSpanKind](../TraceSpanKind.md)
 * class [TraceExtensions](../TraceExtensions.md)
 * namespace [Faithlife.Tracing](../../Faithlife.Tracing.md)

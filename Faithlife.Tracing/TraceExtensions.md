@@ -1,6 +1,6 @@
 # TraceExtensions class
 
-Provides helper methods for working with [`ITrace`](ITrace.md) and [`ITracer`](ITracer.md).
+Provides helper methods for working with [`ITraceSpan`](ITraceSpan.md) and [`ITracer`](ITracer.md).
 
 ```csharp
 public static class TraceExtensions
@@ -10,8 +10,8 @@ public static class TraceExtensions
 
 | name | description |
 | --- | --- |
-| static [StartChildTrace](TraceExtensions/StartChildTrace.md)(…) | Starts a new [`ITrace`](ITrace.md) that is a child of *trace*. |
-| static [StartNewTrace](TraceExtensions/StartNewTrace.md)(…) | Starts a new trace (that is the root of a trace hierarchy). |
+| static [StartChildSpan](TraceExtensions/StartChildSpan.md)(…) | Starts a new [`ITraceSpan`](ITraceSpan.md) that is a child of *traceSpan*. |
+| static [StartNewTrace](TraceExtensions/StartNewTrace.md)(…) | Starts a new span (that is the root of a trace hierarchy). |
 
 ## See Also
 

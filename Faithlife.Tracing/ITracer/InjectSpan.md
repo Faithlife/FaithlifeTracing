@@ -1,19 +1,19 @@
-# ITracer.InjectTrace method
+# ITracer.InjectSpan method
 
-Injects a trace into a string-to-string map.
+Injects a span into a string-to-string map.
 
 ```csharp
-public void InjectTrace(ITrace trace, Action<string, string> inject)
+public void InjectSpan(ITraceSpan traceSpan, Action<string, string> inject)
 ```
 
 | parameter | description |
 | --- | --- |
-| trace | The [`ITrace`](../ITrace.md) to inject. |
+| traceSpan | The [`ITraceSpan`](../ITraceSpan.md) to inject. |
 | inject | A Action that sets a key to a specified value. |
 
 ## See Also
 
-* interface [ITrace](../ITrace.md)
+* interface [ITraceSpan](../ITraceSpan.md)
 * interface [ITracer](../ITracer.md)
 * namespace [Faithlife.Tracing](../../Faithlife.Tracing.md)
 

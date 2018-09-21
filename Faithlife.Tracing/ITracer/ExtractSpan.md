@@ -1,9 +1,9 @@
-# ITracer.ExtractTrace method
+# ITracer.ExtractSpan method
 
-Extracts a trace from a string-to-string map.
+Extracts a span from a string-to-string map.
 
 ```csharp
-public ITrace ExtractTrace(Func<string, string> extractKey)
+public ITraceSpan ExtractSpan(Func<string, string> extractKey)
 ```
 
 | parameter | description |
@@ -12,11 +12,11 @@ public ITrace ExtractTrace(Func<string, string> extractKey)
 
 ## Return Value
 
-A new [`ITrace`](../ITrace.md) if one could be extracted successfully, or `null`.
+A new [`ITraceSpan`](../ITraceSpan.md) if one could be extracted successfully, or `null`.
 
 ## See Also
 
-* interface [ITrace](../ITrace.md)
+* interface [ITraceSpan](../ITraceSpan.md)
 * interface [ITracer](../ITracer.md)
 * namespace [Faithlife.Tracing](../../Faithlife.Tracing.md)
 

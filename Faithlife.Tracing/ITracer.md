@@ -10,9 +10,9 @@ public interface ITracer
 
 | name | description |
 | --- | --- |
-| [ExtractTrace](ITracer/ExtractTrace.md)(…) | Extracts a trace from a string-to-string map. |
-| [InjectTrace](ITracer/InjectTrace.md)(…) | Injects a trace into a string-to-string map. |
-| [StartTrace](ITracer/StartTrace.md)(…) | Creates a new span (that is optionally a child of an existing span). |
+| [ExtractSpan](ITracer/ExtractSpan.md)(…) | Extracts a span from a string-to-string map. |
+| [InjectSpan](ITracer/InjectSpan.md)(…) | Injects a span into a string-to-string map. |
+| [StartSpan](ITracer/StartSpan.md)(…) | Creates a new span (that is optionally a child of an existing span). |
 
 ## Remarks
 
