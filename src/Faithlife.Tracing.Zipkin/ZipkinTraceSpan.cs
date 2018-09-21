@@ -26,7 +26,7 @@ namespace Faithlife.Tracing.Zipkin
 			else if (name == SpanTagNames.Operation)
 				WrappedTrace.Record(Annotations.Rpc(Truncate(value, 128)));
 			else
-				WrappedTrace.Record(Annotations.Tag(name, value));
+				WrappedTrace.Record(Annotations.Tag(name, Truncate(value, 4096)));
 		}
 
 		public ITracer Tracer { get; }
