@@ -3,44 +3,48 @@ using System;
 namespace Faithlife.Tracing.AspNet
 {
 	/// <summary>
-	/// An <see cref="ITraceSpanProvider"/> that has a "stack" of two trace spans: the request
-	/// and the controller action method; it returns the deepest span in the stack as
+	/// An <see cref="ITraceSpanProvider"/> that has a "stack" of up to four trace spans: the request
+	/// the controller action method, and any child actions; it returns the deepest span in the stack as
 	/// the current one.
 	/// </summary>
 	internal sealed class RequestActionTraceSpanProvider : ITraceSpanProvider
 	{
-		public ITraceSpan CurrentSpan => m_actionSpan ?? m_requestSpan;
+		public ITraceSpan CurrentSpan => m_spans[m_spanIndex];
 
 		public RequestActionTraceSpanProvider(ITraceSpan requestSpan)
 		{
-			m_requestSpan = requestSpan ?? throw new ArgumentNullException(nameof(requestSpan));
+			m_spans = new ITraceSpan[4];
+			m_spans[0] = requestSpan ?? throw new ArgumentNullException(nameof(requestSpan));
 		}
 
 		public void StartActionSpan(string serviceName, string controller, string action)
 		{
-			if (m_requestSpan == null)
+			if (m_spans[m_spanIndex] == null)
 				throw new InvalidOperationException("Can't set action span when request span isn't present");
-			if (m_actionSpan != null)
-				throw new InvalidOperationException("There is already a current action span");
+			if (m_spanIndex == m_spans.Length - 1)
+				throw new InvalidOperationException("Maximum child action nesting depth exceeded");
 
-			m_actionSpan = m_requestSpan.StartChildSpan(TraceSpanKind.Server,
+			var childSpan = m_spans[m_spanIndex].StartChildSpan(TraceSpanKind.Server,
 				new[]
 				{
 					(SpanTagNames.Service, serviceName),
 					(SpanTagNames.Operation, controller + "." + action),
 				});
+			m_spans[++m_spanIndex] = childSpan;
 		}
 
-		public void FinishActionSpan() => FinishSpan(ref m_actionSpan);
-		public void FinishRequestSpan() => FinishSpan(ref m_requestSpan);
+		public void FinishActionSpan() => PopSpan();
+		public void FinishRequestSpan() => PopSpan();
 
-		private static void FinishSpan(ref ITraceSpan traceSpan)
+		private void PopSpan()
 		{
-			traceSpan?.Dispose();
-			traceSpan = null;
+			m_spans[m_spanIndex]?.Dispose();
+			m_spans[m_spanIndex] = null;
+			if (m_spanIndex > 0)
+				m_spanIndex--;
 		}
 
-		ITraceSpan m_requestSpan;
-		ITraceSpan m_actionSpan;
+		readonly ITraceSpan[] m_spans;
+		int m_spanIndex;
 	}
 }

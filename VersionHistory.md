@@ -14,6 +14,7 @@ Prefix the description of the change with `[major]`, `[minor]` or `[patch]` in a
 * **Breaking** Rename `ITrace` to `ITraceSpan`; rename all related types.
 * Fix bug causing top-level URL to be overwritten by MVC child actions.
 * Limit size of tag names to 128 bytes and tag values to 4096 bytes. (Longer values will be truncated.)
+* Fix exception when ASP.NET child actions were traced.
 
 ### 1.0.0 RC2
 
