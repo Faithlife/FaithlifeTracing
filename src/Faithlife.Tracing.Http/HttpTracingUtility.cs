@@ -17,6 +17,16 @@ namespace Faithlife.Tracing.Http
 			return requestSpan;
 		}
 
+		public static IDisposable StartHttpSpan(this ITraceSpanProvider traceSpanProvider, HttpRequestMessage request)
+		{
+			if (request == null)
+				throw new ArgumentNullException(nameof(request));
+
+			var requestSpan = SetHttpHeadersAndCreateSpan(traceSpanProvider?.CurrentSpan, request.RequestUri, (k, v) => request.Headers.Add(k, v));
+			requestSpan?.SetTag(SpanTagNames.HttpMethod, request.Method.Method);
+			return requestSpan;
+		}
+
 		public static HttpMessageHandler CreateHttpMessageHandler(ITraceSpanProvider traceSpanProvider, HttpMessageHandler messageHandler) => new TracingHttpMessageHandler(traceSpanProvider, messageHandler);
 
 		private sealed class TracingHttpMessageHandler : MessageProcessingHandler
