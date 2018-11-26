@@ -29,14 +29,14 @@ public MyApplication()
 }
 ```
 
-In your type registry, register `ITraceProvider` as a per-request object that's obtained
+In your type registry, register `ITraceSpanProvider` as a per-request object that's obtained
 from `HttpContext.Current`. This may look something like (StructureMap):
 
-    For<ITraceProvider>().HttpContextScoped().Use(c => AspNetWebApiTracing.GetProvider(HttpContext.Current));
+    For<ITraceSpanProvider>().HttpContextScoped().Use(c => AspNetWebApiTracing.GetProvider(HttpContext.Current));
 
 or (AutoFac):
 
-    builder.Register<ITraceProvider>(c => AspNetWebApiTracing.GetProvider(HttpContext.Current)).InstancePerRequest();
+    builder.Register<ITraceSpanProvider>(c => AspNetWebApiTracing.GetProvider(HttpContext.Current)).InstancePerRequest();
 
 ### ASP.NET Core
 
@@ -74,7 +74,7 @@ Install the `Faithlife.Tracing.Data` package. Modify your code that creates a `D
 ```
 public DbConnection CreateConnection(string connectionString)
 {
-    ITraceProvider traceProvider = // get the ITraceProvider for the current request
+    ITraceSpanProvider traceProvider = // get the ITraceSpanProvider for the current request
     return TracingDbConnection.Create(new MySqlConnection(connectionString), traceProvider);
 }
 ```
@@ -84,8 +84,8 @@ public DbConnection CreateConnection(string connectionString)
 Install the `Faithlife.Tracing.Http` package. Trace HTTP requests by inserting a new `HttpMessageHandler` into the stack.
 
 ```
-ITraceProvider traceProvider = // get the ITraceProvider for the current request
-var tracingMessageHandler = HttpTracingUtility.CreateHttpMessageHandler(traceProvider, new HttpClientHandler());
+ITraceSpanProvider traceSpanProvider = // get the ITraceSpanProvider for the current request
+var tracingMessageHandler = HttpTracingUtility.CreateHttpMessageHandler(traceSpanProvider, new HttpClientHandler());
 var httpClient = new HttpClient(tracingMessageHandler);
 // use httpClient
 ```
