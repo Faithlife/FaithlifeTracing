@@ -20,6 +20,6 @@ namespace Faithlife.Tracing.AspNetWebApi
 			}
 		}
 
-		public static ITraceSpanProvider GetProvider(HttpContext context) => AspNetTracing.GetProvider(context) ?? NullTraceSpanProvider.Instance;
+		public static ITraceSpanProvider GetProvider(HttpContext context) => AspNetTracing.GetProvider(context) ?? NoopTraceSpanProvider.Instance;
 	}
 }

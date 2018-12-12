@@ -69,7 +69,7 @@ namespace Faithlife.Tracing.AspNetCore
 			return builder;
 		}
 
-		public static ITraceSpanProvider GetProvider(HttpContext context) => GetRequestActionTraceSpanProvider(context) ?? NullTraceSpanProvider.Instance;
+		public static ITraceSpanProvider GetProvider(HttpContext context) => GetRequestActionTraceSpanProvider(context) ?? NoopTraceSpanProvider.Instance;
 
 		internal static ITracer Tracer { get; set; }
 
