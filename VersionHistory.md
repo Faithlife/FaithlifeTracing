@@ -9,6 +9,9 @@ Prefix the description of the change with `[major]`, `[minor]` or `[patch]` in a
 
 ## Released
 
+### 1.0.0 RC4
+* Ensure `ITraceSpan` instances are not `null`.
+
 ### 1.0.0 RC3
 
 * **Breaking** Rename `ITrace` to `ITraceSpan`; rename all related types.
